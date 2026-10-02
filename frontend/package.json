@@ -1,0 +1,13 @@
+{
+  "name": "zs-sean-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bare bones Node.js frontend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

@@ -1,17 +1,40 @@
 services:
+
   nginx:
     build:
-      context: frontend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./lagoon/nginx.Dockerfile
+    environment:
+      # Local backend for /cms and /api, reached directly over amazeeio-network
+      # (*.docker.amazee.io resolves to 127.0.0.1, i.e. this container itself).
+      # Lagoon ideally uses environment variables.
+      BACKEND_HOST: ${BACKEND_HOST:-zs-sean-backend-nginx-1}
+      BACKEND_PORT: ${BACKEND_PORT:-8080}
+      LAGOON_ROUTE: https://zs-sean-frontend.docker.amazee.io
+    depends_on:
+      - node
+    networks:
+      - amazeeio-network
+      - default
     labels:
       lagoon.type: nginx
     ports:
       - "8080:8080"
-  backend:
+
+  node:
     build:
-      context: backend-proxy
-      dockerfile: backend.Dockerfile
+      context: .
+      dockerfile: ./lagoon/node.Dockerfile
+    environment:
+      LAGOON_ROUTE: https://zs-sean-frontend-node.docker.amazee.io
+    networks:
+      - amazeeio-network
+      - default
     labels:
-      lagoon.type: nginx
+      lagoon.type: node
     ports:
-      - "8081:8080"
+      - "3000:3000"
+
+networks:
+  amazeeio-network:
+    external: true
