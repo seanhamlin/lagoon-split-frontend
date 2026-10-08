@@ -13,3 +13,6 @@ COPY ./lagoon/redirects-map.conf /etc/nginx/redirects-map.conf
 
 # Custom configuration.
 COPY ./lagoon/app.conf /etc/nginx/conf.d/app.conf
+
+# Lagoon runs as a random UID in group 0; ep rewrites these files in place at startup.
+RUN fix-permissions /etc/nginx
