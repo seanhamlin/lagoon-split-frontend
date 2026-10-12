@@ -1,0 +1,17 @@
+docker-compose-yaml: docker-compose.yml
+
+environments:
+  main:
+    network-policies:
+      - service: node
+        projects:
+          # this allows only the production environment from zs-sean-backend to access node
+          - name: zs-sean-backend
+            environment-type: production
+  dev:
+    network-policies:
+      - service: node
+        projects:
+          # this allows only the development environment from zs-sean-backend to access node
+          - name: zs-sean-backend
+            environment-type: development

@@ -1,0 +1,19 @@
+services:
+
+  node:
+    build:
+      context: .
+      dockerfile: ./lagoon/node.Dockerfile
+    environment:
+      LAGOON_ROUTE: https://zs-sean-frontend-node.docker.amazee.io
+    networks:
+      - amazeeio-network
+      - default
+    labels:
+      lagoon.type: node
+    ports:
+      - "3000:3000"
+
+networks:
+  amazeeio-network:
+    external: true
